@@ -1,74 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Türkiye Gölleri - Minimalist Coğrafya Oyunu</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Türkiye Gölleri Coğrafya Oyunu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(21, 29, 46, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f1f5f9;
-      --text-muted: #64748b;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
+      --bg: #09090b;
+      --surface: #121215;
+      --surface-elevated: #18181b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.16);
+      --text: #ededef;
+      --text-muted: #8e8e93;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --correct: #10b981;
+      --wrong: #f43f5e;
+      --radius: 12px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       background-color: var(--bg);
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.06) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* Minimalist Navigation */
     header {
-      padding: 0.9rem 1.8rem;
-      background: rgba(9, 13, 22, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 1.5rem;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .logo-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+    .brand-mark {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
     }
 
-    .logo h1 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: #f8fafc;
+    .brand h1 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #fafafa;
     }
 
     .nav-actions {
@@ -76,164 +82,175 @@
       gap: 8px;
     }
 
-    .btn {
-      padding: 7px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--card-border);
+    .btn-nav {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.03);
       color: var(--text);
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .btn:hover {
+    .btn-nav:hover {
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: var(--border-hover);
     }
 
-    .btn-accent {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.3);
-      color: #38bdf8;
-    }
-
-    .btn-accent:hover {
-      background: rgba(56, 189, 248, 0.25);
+    .btn-nav:active {
+      transform: scale(0.98);
     }
 
     main {
       flex: 1;
-      padding: 1.2rem;
-      max-width: 1200px;
+      padding: 1rem 1.5rem;
+      max-width: 1000px;
       margin: 0 auto;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
-    /* Minimal Stats Bar */
-    .stats-bar {
+    /* Metrics Row */
+    .metrics-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px;
     }
 
-    .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 10px 14px;
-      text-align: center;
+    .metric-item {
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      border-right: 1px solid var(--border);
     }
 
-    .stat-label {
-      font-size: 0.7rem;
+    .metric-item:last-child {
+      border-right: none;
+    }
+
+    .metric-label {
+      font-size: 0.68rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
+      font-weight: 500;
     }
 
-    .stat-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #38bdf8;
+    .metric-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fafafa;
+      margin-top: 2px;
     }
 
-    /* Mode Navigation Tabs */
-    .mode-switch {
+    /* Segmented Control Switcher */
+    .segmented-control {
       display: flex;
-      justify-content: center;
-      gap: 6px;
-      background: rgba(15, 23, 42, 0.8);
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-      width: fit-content;
-      margin: 0 auto;
+      background: var(--surface);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      width: 100%;
     }
 
-    .tab-btn {
-      padding: 8px 16px;
-      border-radius: 9px;
+    .segment-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 7px;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.82rem;
+      font-weight: 500;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
+      text-align: center;
     }
 
-    .tab-btn.active {
-      background: rgba(255, 255, 255, 0.08);
-      color: #f8fafc;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .segment-btn.active {
+      background: var(--surface-elevated);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
-    /* Game Area Container */
-    .game-area {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+    /* Workspace Panel */
+    .workspace {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
       padding: 16px;
-      min-height: 500px;
+      min-height: 480px;
       display: flex;
       flex-direction: column;
       position: relative;
     }
 
     /* Feedback Banner */
-    .feedback-toast {
-      padding: 10px 16px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
+    .toast-status {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
       opacity: 0;
-      transition: opacity 0.25s ease;
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
     }
 
-    .feedback-toast.show {
+    .toast-status.show {
       opacity: 1;
     }
 
-    .feedback-toast.correct {
-      background: rgba(16, 185, 129, 0.12);
+    .toast-status.correct {
       border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.08);
       color: #34d399;
     }
 
-    .feedback-toast.wrong {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.3);
-      color: #f87171;
+    .toast-status.wrong {
+      border-color: rgba(244, 63, 94, 0.3);
+      background: rgba(244, 63, 94, 0.08);
+      color: #fb7185;
+    }
+
+    .toast-status.info {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: rgba(99, 102, 241, 0.08);
+      color: #818cf8;
     }
 
     /* Mode 1: Canvas */
     #canvas-view {
       width: 100%;
-      height: 480px;
+      height: 420px;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     #game-canvas {
       width: 100%;
       height: 100%;
-      border-radius: 14px;
-      background: rgba(9, 13, 22, 0.6);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
       touch-action: none;
       cursor: grab;
     }
@@ -242,93 +259,116 @@
       cursor: grabbing;
     }
 
-    /* Mode 2: Quiz & Mode 3: Mnemonic */
+    /* Overlay FX Canvas */
+    #fx-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Mode 2 & Mode 3 Containers */
     .quiz-container {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
-      max-width: 680px;
-      margin: 40px auto;
+      gap: 16px;
       width: 100%;
+      padding: 10px 0;
+      position: relative;
     }
 
     .question-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 24px;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
       width: 100%;
       text-align: center;
+      position: relative;
     }
 
     .question-tag {
-      font-size: 0.75rem;
-      color: #38bdf8;
+      font-size: 0.68rem;
+      color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .question-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin-bottom: 10px;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
 
     .question-clue {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       background: rgba(255, 255, 255, 0.03);
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       display: inline-block;
+      line-height: 1.4;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .options-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       width: 100%;
     }
 
     .option-btn {
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-      background: rgba(255, 255, 255, 0.03);
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
       color: var(--text);
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       text-align: center;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .option-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-hover);
+    }
+
+    .option-btn:active {
+      transform: scale(0.98);
     }
 
     .option-btn.correct {
-      background: rgba(16, 185, 129, 0.2) !important;
-      border-color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: rgba(16, 185, 129, 0.5) !important;
       color: #34d399 !important;
     }
 
     .option-btn.wrong {
-      background: rgba(239, 68, 68, 0.2) !important;
-      border-color: #ef4444 !important;
-      color: #f87171 !important;
+      background: rgba(244, 63, 94, 0.15) !important;
+      border-color: rgba(244, 63, 94, 0.5) !important;
+      color: #fb7185 !important;
     }
 
     /* Modal / Dictionary */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       display: none;
       justify-content: center;
@@ -338,60 +378,77 @@
     }
 
     .modal-card {
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
       width: 100%;
-      max-width: 800px;
-      max-height: 80vh;
+      max-width: 680px;
+      max-height: 85vh;
       overflow-y: auto;
-      padding: 24px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
     }
 
     .dict-card {
-      background: rgba(30, 41, 59, 0.4);
-      border-radius: 12px;
-      padding: 14px;
-      border-left: 4px solid #38bdf8;
+      background: var(--surface-elevated);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
     }
 
     .dict-card h4 {
-      font-size: 0.98rem;
+      font-size: 0.9rem;
       margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .dict-lakes {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       margin-bottom: 6px;
     }
 
     .dict-story {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #cbd5e1;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 8px 12px;
-      border-radius: 8px;
-      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 10px;
+      border-radius: 6px;
+      line-height: 1.45;
+      border: 1px solid var(--border);
     }
 
     @media (max-width: 640px) {
-      .stats-bar {
+      main {
+        padding: 0.6rem;
+      }
+      .metrics-bar {
         grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+      .metric-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 6px;
+      }
+      .metric-item:nth-child(2), .metric-item:nth-child(4) {
+        border-bottom: none;
       }
       .options-grid {
         grid-template-columns: 1fr;
+      }
+      #canvas-view {
+        height: 400px;
       }
     }
   </style>
@@ -399,46 +456,48 @@
 <body>
 
   <header>
-    <div class="logo">
-      <div class="logo-badge">🌊</div>
+    <div class="brand">
+      <div class="brand-mark"></div>
       <h1>Türkiye Gölleri</h1>
     </div>
     <div class="nav-actions">
-      <button class="btn" id="btn-dict">📖 Kodlama Sözlüğü</button>
-      <button class="btn btn-accent" id="btn-restart">🔄 Sıfırla</button>
+      <button class="btn-nav" id="btn-dict">Kodlamalar</button>
+      <button class="btn-nav" id="btn-restart">Sıfırla</button>
     </div>
   </header>
 
   <main>
-    <div class="stats-bar">
-      <div class="stat-card">
-        <div class="stat-label">Puan</div>
-        <div class="stat-value" id="stat-score">0</div>
+    <div class="metrics-bar">
+      <div class="metric-item">
+        <div class="metric-label">Puan</div>
+        <div class="metric-value" id="stat-score">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Seri</div>
-        <div class="stat-value" id="stat-streak">🔥 0</div>
+      <div class="metric-item">
+        <div class="metric-label">Seri</div>
+        <div class="metric-value" id="stat-streak">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Doğru / Yanlış</div>
-        <div class="stat-value" id="stat-accuracy">0 / 0</div>
+      <div class="metric-item">
+        <div class="metric-label">Doğru / Yanlış</div>
+        <div class="metric-value" id="stat-accuracy">0/0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Kalan</div>
-        <div class="stat-value" id="stat-remaining">44</div>
+      <div class="metric-item">
+        <div class="metric-label">Kalan</div>
+        <div class="metric-value" id="stat-remaining">44</div>
       </div>
     </div>
 
-    <div class="mode-switch">
-      <button class="tab-btn active" data-mode="canvas">🎯 Sürükle - Bırak</button>
-      <button class="tab-btn" data-mode="quiz">⚡ Hızlı Test</button>
-      <button class="tab-btn" data-mode="mnemonic">🧩 Kodlama Eşleştirme</button>
+    <div class="segmented-control">
+      <button class="segment-btn active" data-mode="canvas">Sürükle - Bırak</button>
+      <button class="segment-btn" data-mode="quiz">Hızlı Test</button>
+      <button class="segment-btn" data-mode="mnemonic">Kodlama Eşleştirme</button>
     </div>
 
-    <div class="game-area">
-      <div class="feedback-toast" id="feedback-toast">
-        <span id="feedback-text">Göl balonunu tutup doğru oluşum kutusuna bırakın.</span>
-        <button class="btn btn-accent" id="feedback-next" style="display:none; padding: 4px 10px; font-size: 0.75rem;">Sonraki ➔</button>
+    <div class="workspace">
+      <canvas id="fx-canvas"></canvas>
+
+      <div class="toast-status" id="toast-status">
+        <span id="toast-text">Göl kartını tutup doğru gruba sürükleyin.</span>
+        <button class="btn-nav" id="toast-next" style="display:none; padding: 3px 8px; font-size: 0.72rem;">İlerle ➔</button>
       </div>
 
       <!-- Mode 1: Canvas -->
@@ -448,17 +507,17 @@
 
       <!-- Mode 2: Quiz -->
       <div class="quiz-container" id="quiz-view">
-        <div class="question-card">
-          <div class="question-tag">GÖL HANGİ TÜRDE?</div>
+        <div class="question-card" id="quiz-card">
+          <div class="question-tag">GÖL KATEGORİSİ</div>
           <div class="question-title" id="quiz-title">Göl Yükleniyor...</div>
-          <div class="question-clue" id="quiz-clue">💡 İpucu: ...</div>
+          <div class="question-clue" id="quiz-clue">Hikaye: ...</div>
         </div>
         <div class="options-grid" id="quiz-options"></div>
       </div>
 
       <!-- Mode 3: Mnemonic -->
       <div class="quiz-container" id="mnemonic-view">
-        <div class="question-card">
+        <div class="question-card" id="mnem-card">
           <div class="question-tag">KODLAMA KELİMESİ</div>
           <div class="question-title" id="mnem-title">"Kelime"</div>
           <div class="question-clue">Bu hikaye kelimesi hangi göle aittir?</div>
@@ -472,10 +531,10 @@
   <div class="modal-overlay" id="dict-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>📖 Tüm Göller ve Kodlamaları</h3>
-        <button class="btn" id="close-modal">&times;</button>
+        <h3 style="font-size: 1rem; font-weight: 600;">Kodlama Hikayeleri ve Göller</h3>
+        <button class="btn-nav" id="close-modal">&times;</button>
       </div>
-      <div id="dict-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      <div id="dict-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
   </div>
 
@@ -545,52 +604,88 @@
     ];
 
     const CATEGORIES = [
-      { name: "Tektonik Göller", color: "#38bdf8", story: "Tonluk taş (Aktaş) alıp Ulubat Bey'den (Ulubat & Beyşehir) boynumuzu eğerek (Eğirdir) izin (İznik) alıp sapanla (Sapanca) manyak (Manyas) ve ak tüylü (Akşehir) kuşu vurup gebertiyoruz (Eber). Sonra keyifli (Seyfe) bir şekilde azar azar (Hazar) tuzluyoruz (Tuz). Ama tuzu atan abartıyor bir dur bir dur (Burdur) diye bağırıyoruz çünkü acı (Acıgöl) oluyor kuşun tadı." },
-      { name: "Heyelan Set Gölleri", color: "#34d399", story: "HEY LAN Bora Bey (Borabay) izin (Zinav) alsana serayı (Sera) hortumla (Tortum) abartılı (Abant) bir şekilde yedi gün boyunca (Yedigöller) sulamadan önce sülük (Sülüklü) gibisin aynı." },
-      { name: "Alüvyal Set Gölleri", color: "#fbbf24", story: "Ali köyde (Köyceğiz) çamların içinde (Çamiçi/Bafa) mermerin (Marmara) üstünde yatıyor. Uzun (Uzungöl) bir yorganım (Mogan) olsa keşke diyor. Ona emir (Eymir) verip kalkmasını söylüyoruz. Bide Gala/Yala/Çeltik var." },
-      { name: "Karstik Göller", color: "#f472b6", story: "Karılarımızı alak da sulak (Suğla) alanda elma kesip (Elmalı & Kestel) yerken sala binip (Salda) balık avlayalım (Avlan)." },
-      { name: "Kıyı Set Gölleri", color: "#a78bfa", story: "Duru (Durugöl) leş gibi ter kokuyon (Terkos) git de yatağın (Akyatan/Ağyatan) yanındaki çekmecelere bak (Büyükçekmece & Küçükçekmece) deodorant var orda." },
-      { name: "Volkanik Göller", color: "#f87171", story: "Mete (Meke) acıklı (Acıgöl) bir hayata sahip olduğu için nemrut suratlı (Nemrut) biraz gülücük (Gölcük) lazım." },
-      { name: "Volkanik Set Gölleri", color: "#22d3ee", story: "Van'da yaşayan (Van) nazik (Nazik) bir erkek (Erçek) balığı (Balık) çıldırmış haçlı adama fırlatıyor (Haçlı & Çıldır)." }
+      { name: "Tektonik Göller", color: "#6366f1", story: "Tonluk taş (Aktaş) alıp Ulubat Bey'den (Ulubat & Beyşehir) boynumuzu eğerek (Eğirdir) izin (İznik) alıp sapanla (Sapanca) manyak (Manyas) ve ak tüylü (Akşehir) kuşu vurup gebertiyoruz (Eber). Sonra keyifli (Seyfe) bir şekilde azar azar (Hazar) tuzluyoruz (Tuz). Ama tuzu atan abartıyor bir dur bir dur (Burdur) diye bağırıyoruz çünkü acı (Acıgöl) oluyor kuşun tadı." },
+      { name: "Heyelan Set Gölleri", color: "#10b981", story: "HEY LAN Bora Bey (Borabay) izin (Zinav) alsana serayı (Sera) hortumla (Tortum) abartılı (Abant) bir şekilde yedi gün boyunca (Yedigöller) sulamadan önce sülük (Sülüklü) gibisin aynı." },
+      { name: "Alüvyal Set Gölleri", color: "#f59e0b", story: "Ali köyde (Köyceğiz) çamların içinde (Çamiçi/Bafa) mermerin (Marmara) üstünde yatıyor. Uzun (Uzungöl) bir yorganım (Mogan) olsa keşke diyor. Ona emir (Eymir) verip kalkmasını söylüyoruz. Bide Gala/Yala/Çeltik var." },
+      { name: "Karstik Göller", color: "#ec4899", story: "Karılarımızı alak da sulak (Suğla) alanda elma kesip (Elmalı & Kestel) yerken sala binip (Salda) balık avlayalım (Avlan)." },
+      { name: "Kıyı Set Gölleri", color: "#8b5cf6", story: "Duru (Durugöl) leş gibi ter kokuyon (Terkos) git de yatağın (Akyatan/Ağyatan) yanındaki çekmecelere bak (Büyükçekmece & Küçükçekmece) deodorant var orda." },
+      { name: "Volkanik Göller", color: "#f43f5e", story: "Mete (Meke) acıklı (Acıgöl) bir hayata sahip olduğu için nemrut suratlı (Nemrut) biraz gülücük (Gölcük) lazım." },
+      { name: "Volkanik Set Gölleri", color: "#06b6d4", story: "Van'da yaşayan (Van) nazik (Nazik) bir erkek (Erçek) balığı (Balık) çıldırmış haçlı adama fırlatıyor (Haçlı & Çıldır)." }
     ];
 
-    // Web Audio Synthesizer
+    // Minimal Web Audio Chime
     class SoundManager {
       constructor() {
         this.ctx = new (window.AudioContext || window.webkitAudioContext)();
       }
       playCorrect() {
         if (this.ctx.state === 'suspended') this.ctx.resume();
+        const t = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        osc.frequency.setValueAtTime(587.33, this.ctx.currentTime); // D5
-        osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.15); // A5
-        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, t);
+        osc.frequency.exponentialRampToValueAtTime(880, t + 0.12);
+        gain.gain.setValueAtTime(0.12, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.2);
+        osc.start(t);
+        osc.stop(t + 0.25);
       }
       playWrong() {
         if (this.ctx.state === 'suspended') this.ctx.resume();
+        const t = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(180, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.2);
-        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
+        osc.frequency.setValueAtTime(180, t);
+        osc.frequency.exponentialRampToValueAtTime(130, t + 0.2);
+        gain.gain.setValueAtTime(0.15, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.2);
+        osc.start(t);
+        osc.stop(t + 0.2);
       }
     }
 
     const sound = new SoundManager();
 
-    // GAME STATE
+    // COOKIE / SESSION PERSISTENCE HELPERS
+    const COOKIE_NAME = 'cografya_golleri_progress';
+
+    function setProgressCookie(data) {
+      try {
+        const json = JSON.stringify(data);
+        const encoded = encodeURIComponent(json);
+        document.cookie = `${COOKIE_NAME}=${encoded}; path=/; max-age=2592000; SameSite=Lax`;
+        localStorage.setItem(COOKIE_NAME, json); // fallback
+      } catch (e) {
+        console.error("Cookie write error:", e);
+      }
+    }
+
+    function getProgressCookie() {
+      try {
+        const matches = document.cookie.match(new RegExp('(?:^|; )' + COOKIE_NAME.replace(/([\.$?*|{}()[\]\\\/+^])/g, '\\$1') + '=([^;]*)'));
+        if (matches) {
+          return JSON.parse(decodeURIComponent(matches[1]));
+        }
+        const local = localStorage.getItem(COOKIE_NAME);
+        if (local) return JSON.parse(local);
+      } catch (e) {
+        console.error("Cookie read error:", e);
+      }
+      return null;
+    }
+
+    function clearProgressCookie() {
+      document.cookie = `${COOKIE_NAME}=; path=/; max-age=0`;
+      localStorage.removeItem(COOKIE_NAME);
+    }
+
+    // STATE
     let currentMode = 'canvas';
     let score = 0;
     let streak = 0;
@@ -600,19 +695,47 @@
     let activeLake = null;
     let currentQuizItem = null;
 
-    // DOM ELEMENTS
+    function saveState() {
+      const state = {
+        score,
+        streak,
+        correctCount,
+        wrongCount,
+        remainingLakeNames: remainingPool.map(l => l.name)
+      };
+      setProgressCookie(state);
+    }
+
+    function loadState() {
+      const saved = getProgressCookie();
+      if (saved) {
+        score = saved.score || 0;
+        streak = saved.streak || 0;
+        correctCount = saved.correctCount || 0;
+        wrongCount = saved.wrongCount || 0;
+        if (Array.isArray(saved.remainingLakeNames) && saved.remainingLakeNames.length > 0) {
+          remainingPool = LAKES_DATA.filter(l => saved.remainingLakeNames.includes(l.name));
+          if (remainingPool.length === 0) remainingPool = [...LAKES_DATA];
+        }
+        showToast("Önceki ilerlemeniz çerezlerden yüklendi.", true);
+        return true;
+      }
+      return false;
+    }
+
+    // DOM
     const statScore = document.getElementById('stat-score');
     const statStreak = document.getElementById('stat-streak');
     const statAccuracy = document.getElementById('stat-accuracy');
     const statRemaining = document.getElementById('stat-remaining');
-    const feedbackToast = document.getElementById('feedback-toast');
-    const feedbackText = document.getElementById('feedback-text');
-    const feedbackNext = document.getElementById('feedback-next');
+    const toastStatus = document.getElementById('toast-status');
+    const toastText = document.getElementById('toast-text');
+    const toastNext = document.getElementById('toast-next');
 
-    // TAB SWITCHING
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    // SEGMENTED SWITCH
+    document.querySelectorAll('.segment-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentMode = btn.dataset.mode;
 
@@ -626,26 +749,81 @@
 
     function updateStats() {
       statScore.textContent = score;
-      statStreak.textContent = `🔥 ${streak}`;
-      statAccuracy.textContent = `${correctCount} / ${wrongCount}`;
+      statStreak.textContent = streak;
+      statAccuracy.textContent = `${correctCount}/${wrongCount}`;
       statRemaining.textContent = remainingPool.length;
     }
 
     function showToast(msg, isCorrect, showNext = false) {
-      feedbackToast.className = `feedback-toast show ${isCorrect ? 'correct' : 'wrong'}`;
-      feedbackText.textContent = msg;
-      feedbackNext.style.display = showNext ? 'inline-block' : 'none';
+      toastStatus.className = `toast-status show ${isCorrect ? 'correct' : 'wrong'}`;
+      toastText.textContent = msg;
+      toastNext.style.display = showNext ? 'inline-block' : 'none';
     }
 
     function hideToast() {
-      feedbackToast.className = 'feedback-toast';
+      toastStatus.className = 'toast-status';
     }
 
-    // --- CANVAS ENGINE ---
+    // OVERLAY FX CANVAS
+    const fxCanvas = document.getElementById('fx-canvas');
+    const fxCtx = fxCanvas.getContext('2d');
+    let fxParticles = [];
+
+    function resizeFxCanvas() {
+      const rect = fxCanvas.parentElement.getBoundingClientRect();
+      fxCanvas.width = rect.width;
+      fxCanvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeFxCanvas);
+
+    function triggerGlobalExplosion(x, y) {
+      resizeFxCanvas();
+      const colors = ['#6366f1', '#10b981', '#38bdf8', '#ffffff'];
+      for (let i = 0; i < 30; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 6 + 2;
+        fxParticles.push({
+          x: x || fxCanvas.width / 2,
+          y: y || fxCanvas.height / 2,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1,
+          gravity: 0.12,
+          friction: 0.96,
+          radius: Math.random() * 2.5 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          life: 25
+        });
+      }
+    }
+
+    function renderFxCanvas() {
+      fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+      fxParticles.forEach((p, idx) => {
+        fxCtx.save();
+        fxCtx.globalAlpha = p.alpha;
+        fxCtx.fillStyle = p.color;
+        fxCtx.beginPath();
+        fxCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        fxCtx.fill();
+        fxCtx.restore();
+
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= p.friction; p.vy *= p.friction;
+        p.vy += p.gravity;
+        p.alpha -= 1 / p.life;
+        if (p.alpha <= 0) fxParticles.splice(idx, 1);
+      });
+      requestAnimationFrame(renderFxCanvas);
+    }
+    renderFxCanvas();
+
+    // CANVAS ENGINE (MODE 1)
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
     let buckets = [];
     let particles = [];
+    let floatingTexts = [];
     let isDragging = false;
     let dragOffset = { x: 0, y: 0 };
 
@@ -655,17 +833,18 @@
       canvas.height = rect.height;
       setupBuckets();
     }
-
     window.addEventListener('resize', resizeCanvas);
 
     function setupBuckets() {
       buckets = [];
-      const cols = 4;
-      const padX = 12;
-      const padY = 10;
+      const isMobile = window.innerWidth <= 640;
+      const cols = isMobile ? 2 : 4;
+      const padX = isMobile ? 8 : 12;
+      const padY = isMobile ? 6 : 10;
       const bWidth = (canvas.width - (cols + 1) * padX) / cols;
-      const bHeight = 68;
-      const startY = canvas.height - 160;
+      const bHeight = isMobile ? 50 : 60;
+      const rows = Math.ceil(CATEGORIES.length / cols);
+      const startY = canvas.height - (rows * (bHeight + padY)) - 10;
 
       CATEGORIES.forEach((cat, idx) => {
         const col = idx % cols;
@@ -673,7 +852,7 @@
         const x = padX + col * (bWidth + padX);
         const y = startY + row * (bHeight + padY);
 
-        buckets.push({ ...cat, x, y, w: bWidth, h: bHeight });
+        buckets.push({ ...cat, x, y, w: bWidth, h: bHeight, pulse: 0 });
       });
     }
 
@@ -682,51 +861,66 @@
       const idx = Math.floor(Math.random() * remainingPool.length);
       const lake = remainingPool[idx];
 
-      // MINIMALISTIC COMPACT PILL / BUBBLE RADIUS (Radius: 38px)
+      const isMobile = window.innerWidth <= 640;
       activeLake = {
         ...lake,
         x: canvas.width / 2,
-        y: 65,
-        radius: 38
+        y: isMobile ? 45 : 55,
+        w: 120,
+        h: 36
       };
     }
 
-    function addParticles(x, y, color) {
-      for (let i = 0; i < 14; i++) {
+    function triggerExplosion(x, y, baseColor) {
+      for (let i = 0; i < 25; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 6 + 2;
         particles.push({
           x, y,
-          vx: (Math.random() - 0.5) * 6,
-          vy: (Math.random() - 0.5) * 6,
-          radius: Math.random() * 3 + 1.5,
-          color,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1,
+          gravity: 0.15,
+          friction: 0.96,
+          radius: Math.random() * 2.5 + 1,
+          color: baseColor,
           alpha: 1,
           life: 25
         });
       }
     }
 
+    function addFloatingText(x, y, text, color) {
+      floatingTexts.push({ x, y, text, color, alpha: 1, vy: -1.8 });
+    }
+
     function renderCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Top guide text
-      ctx.fillStyle = '#64748b';
-      ctx.font = '500 12px "Plus Jakarta Sans"';
+      ctx.fillStyle = '#8e8e93';
+      ctx.font = '500 11px "Inter"';
       ctx.textAlign = 'center';
-      ctx.fillText("Gölü tutup aşağıdaki oluşum kutularından birine bırakın", canvas.width / 2, 22);
+      ctx.fillText("Göl kartını tutup doğru gruba sürükleyin", canvas.width / 2, 18);
 
       // Draw Buckets
       buckets.forEach(b => {
         ctx.save();
-        ctx.fillStyle = b.color + '15';
-        ctx.strokeStyle = b.color + '60';
-        ctx.lineWidth = 1;
+        if (b.pulse > 0) {
+          b.pulse -= 0.05;
+          ctx.shadowColor = b.color;
+          ctx.shadowBlur = 12 * b.pulse;
+        }
+
+        ctx.fillStyle = '#18181b';
+        ctx.strokeStyle = b.pulse > 0 ? b.color : 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = b.pulse > 0 ? 1.5 : 1;
+
         ctx.beginPath();
-        ctx.roundRect(b.x, b.y, b.w, b.h, 10);
+        ctx.roundRect(b.x, b.y, b.w, b.h, 8);
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = b.color;
-        ctx.font = '600 11.5px "Plus Jakarta Sans"';
+        ctx.fillStyle = '#ededef';
+        ctx.font = '500 11.5px "Inter"';
         ctx.textAlign = 'center';
         ctx.fillText(b.name, b.x + b.w / 2, b.y + b.h / 2 + 4);
         ctx.restore();
@@ -742,44 +936,51 @@
         ctx.fill();
         ctx.restore();
 
-        p.x += p.vx;
-        p.y += p.vy;
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= p.friction; p.vy *= p.friction;
+        p.vy += p.gravity;
         p.alpha -= 1 / p.life;
         if (p.alpha <= 0) particles.splice(idx, 1);
       });
 
-      // Active Lake Bubble (MINIMAL COMPACT)
+      // Floating Texts
+      floatingTexts.forEach((ft, idx) => {
+        ctx.save();
+        ctx.globalAlpha = ft.alpha;
+        ctx.fillStyle = ft.color;
+        ctx.font = '600 13px "Inter"';
+        ctx.textAlign = 'center';
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
+
+        ft.y += ft.vy;
+        ft.alpha -= 0.035;
+        if (ft.alpha <= 0) floatingTexts.splice(idx, 1);
+      });
+
+      // Active Floating Lake Card
       if (activeLake) {
         ctx.save();
-        
-        // Soft Glow
-        ctx.shadowColor = 'rgba(56, 189, 248, 0.25)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 12;
 
-        // Elegant Pill Shape / Circle
-        ctx.fillStyle = '#1e293b';
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 1.5;
+        ctx.fillStyle = '#27272a';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 1;
+
+        const rx = activeLake.x - activeLake.w / 2;
+        const ry = activeLake.y - activeLake.h / 2;
 
         ctx.beginPath();
-        ctx.arc(activeLake.x, activeLake.y, activeLake.radius, 0, Math.PI * 2);
+        ctx.roundRect(rx, ry, activeLake.w, activeLake.h, 8);
         ctx.fill();
         ctx.stroke();
 
-        // Text inside bubble
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = '600 12px "Plus Jakarta Sans"';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 12px "Inter"';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        
-        // Wrap text if needed
-        const words = activeLake.name.split(' ');
-        if (words.length > 1 && activeLake.name.length > 10) {
-          ctx.fillText(words[0], activeLake.x, activeLake.y - 7);
-          ctx.fillText(words.slice(1).join(' '), activeLake.x, activeLake.y + 7);
-        } else {
-          ctx.fillText(activeLake.name, activeLake.x, activeLake.y);
-        }
+        ctx.fillText(activeLake.name, activeLake.x, activeLake.y);
 
         ctx.restore();
       }
@@ -797,8 +998,10 @@
     function handleStart(e) {
       if (!activeLake) return;
       const pos = getCanvasCoords(e);
-      const dist = Math.hypot(pos.x - activeLake.x, pos.y - activeLake.y);
-      if (dist < activeLake.radius) {
+      const rx = activeLake.x - activeLake.w / 2;
+      const ry = activeLake.y - activeLake.h / 2;
+
+      if (pos.x >= rx && pos.x <= rx + activeLake.w && pos.y >= ry && pos.y <= ry + activeLake.h) {
         isDragging = true;
         dragOffset.x = pos.x - activeLake.x;
         dragOffset.y = pos.y - activeLake.y;
@@ -827,29 +1030,44 @@
         }
       });
 
+      const isMobile = window.innerWidth <= 640;
+      const resetY = isMobile ? 45 : 55;
+
       if (hitBucket) {
         if (hitBucket.name === activeLake.type) {
           sound.playCorrect();
-          score += 10 + streak * 2;
+          const earnedScore = 10 + streak * 2;
+          score += earnedScore;
           streak++;
           correctCount++;
-          addParticles(activeLake.x, activeLake.y, hitBucket.color);
-          showToast(`Doğru! ${activeLake.name} ➔ ${activeLake.type} ("${activeLake.key}")`, true);
+
+          hitBucket.pulse = 1;
+          triggerExplosion(activeLake.x, activeLake.y, hitBucket.color);
+          addFloatingText(hitBucket.x + hitBucket.w / 2, hitBucket.y - 8, `+${earnedScore}`, '#34d399');
+
+          showToast(`Doğru: ${activeLake.name} ➔ ${activeLake.type}`, true);
           remainingPool = remainingPool.filter(l => l.name !== activeLake.name);
+          
+          saveState(); // Save to Cookie
           updateStats();
-          setTimeout(spawnNextLake, 600);
+
+          activeLake = null;
+          setTimeout(spawnNextLake, 400);
         } else {
           sound.playWrong();
           streak = 0;
           wrongCount++;
-          showToast(`Yanlış! ${activeLake.name} aslında bir ${activeLake.type} (${activeLake.key}).`, false);
+          addFloatingText(hitBucket.x + hitBucket.w / 2, hitBucket.y - 8, `Yanlış`, '#fb7185');
+          showToast(`Yanlış: ${activeLake.name} bir ${activeLake.type} örneğidir.`, false);
+          
+          saveState(); // Save to Cookie
           updateStats();
           activeLake.x = canvas.width / 2;
-          activeLake.y = 65;
+          activeLake.y = resetY;
         }
       } else {
         activeLake.x = canvas.width / 2;
-        activeLake.y = 65;
+        activeLake.y = resetY;
       }
     }
 
@@ -860,14 +1078,14 @@
     canvas.addEventListener('touchmove', handleMove, { passive: false });
     canvas.addEventListener('touchend', handleEnd);
 
-    // --- MODE 2: QUIZ ---
+    // MODE 2: QUIZ
     function setupQuiz() {
       hideToast();
       if (remainingPool.length === 0) remainingPool = [...LAKES_DATA];
       currentQuizItem = remainingPool[Math.floor(Math.random() * remainingPool.length)];
 
       document.getElementById('quiz-title').textContent = currentQuizItem.name;
-      document.getElementById('quiz-clue').textContent = `💡 Kodlama İpucu: "...${currentQuizItem.key}..."`;
+      document.getElementById('quiz-clue').textContent = `Hikaye: "...${currentQuizItem.key}..."`;
 
       const grid = document.getElementById('quiz-options');
       grid.innerHTML = '';
@@ -876,12 +1094,12 @@
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.textContent = cat.name;
-        btn.onclick = () => checkQuiz(cat.name, btn);
+        btn.onclick = (e) => checkQuiz(cat.name, btn, e);
         grid.appendChild(btn);
       });
     }
 
-    function checkQuiz(selected, btn) {
+    function checkQuiz(selected, btn, e) {
       const btns = document.querySelectorAll('#quiz-options .option-btn');
       btns.forEach(b => b.style.pointerEvents = 'none');
 
@@ -891,7 +1109,11 @@
         score += 15;
         streak++;
         correctCount++;
-        showToast(`Tebrikler! ${currentQuizItem.name} ➔ ${currentQuizItem.type}`, true, true);
+
+        const rect = btn.getBoundingClientRect();
+        triggerGlobalExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        showToast(`Doğru: ${currentQuizItem.name} ➔ ${currentQuizItem.type}`, true, true);
         remainingPool = remainingPool.filter(l => l.name !== currentQuizItem.name);
       } else {
         btn.classList.add('wrong');
@@ -899,12 +1121,13 @@
         streak = 0;
         wrongCount++;
         btns.forEach(b => { if (b.textContent === currentQuizItem.type) b.classList.add('correct'); });
-        showToast(`Yanlış! ${currentQuizItem.name} bir ${currentQuizItem.type} örneğidir.`, false, true);
+        showToast(`Yanlış: ${currentQuizItem.name} bir ${currentQuizItem.type} örneğidir.`, false, true);
       }
+      saveState(); // Save Cookie
       updateStats();
     }
 
-    // --- MODE 3: MNEMONIC ---
+    // MODE 3: MNEMONIC
     function setupMnemonic() {
       hideToast();
       if (remainingPool.length === 0) remainingPool = [...LAKES_DATA];
@@ -926,12 +1149,12 @@
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.textContent = item.name;
-        btn.onclick = () => checkMnemonic(item.name, btn);
+        btn.onclick = (e) => checkMnemonic(item.name, btn, e);
         grid.appendChild(btn);
       });
     }
 
-    function checkMnemonic(selectedName, btn) {
+    function checkMnemonic(selectedName, btn, e) {
       const btns = document.querySelectorAll('#mnem-options .option-btn');
       btns.forEach(b => b.style.pointerEvents = 'none');
 
@@ -941,19 +1164,24 @@
         score += 20;
         streak++;
         correctCount++;
-        showToast(`Tebrikler! "${currentQuizItem.key}" ➔ ${currentQuizItem.name}`, true, true);
+
+        const rect = btn.getBoundingClientRect();
+        triggerGlobalExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        showToast(`Doğru: "${currentQuizItem.key}" ➔ ${currentQuizItem.name}`, true, true);
       } else {
         btn.classList.add('wrong');
         sound.playWrong();
         streak = 0;
         wrongCount++;
         btns.forEach(b => { if (b.textContent === currentQuizItem.name) b.classList.add('correct'); });
-        showToast(`Yanlış! "${currentQuizItem.key}" kodlaması ${currentQuizItem.name} içindir.`, false, true);
+        showToast(`Yanlış: "${currentQuizItem.key}" kodlaması ${currentQuizItem.name} içindir.`, false, true);
       }
+      saveState(); // Save Cookie
       updateStats();
     }
 
-    feedbackNext.onclick = () => {
+    toastNext.onclick = () => {
       if (currentMode === 'quiz') setupQuiz();
       if (currentMode === 'mnemonic') setupMnemonic();
     };
@@ -974,11 +1202,10 @@
         const lakes = LAKES_DATA.filter(l => l.type === cat.name).map(l => l.name).join(', ');
         const card = document.createElement('div');
         card.className = 'dict-card';
-        card.style.borderLeftColor = cat.color;
         card.innerHTML = `
           <h4 style="color: ${cat.color}">${cat.name}</h4>
           <div class="dict-lakes"><strong>Göller:</strong> ${lakes}</div>
-          <div class="dict-story">💬 <strong>Kodlama Hikayesi:</strong> ${cat.story}</div>
+          <div class="dict-story"><strong>Kodlama:</strong> ${cat.story}</div>
         `;
         list.appendChild(card);
       });
@@ -987,14 +1214,18 @@
 
     document.getElementById('close-modal').onclick = () => modal.style.display = 'none';
 
+    // RESET BUTTON (Clears Cookie & Resets State)
     document.getElementById('btn-restart').onclick = () => {
+      clearProgressCookie();
       score = 0; streak = 0; correctCount = 0; wrongCount = 0;
       remainingPool = [...LAKES_DATA];
       updateStats();
+      showToast("İlerlemeniz ve çerezler sıfırlandı.", false);
       initMode();
     };
 
-    // INIT
+    // INITIAL LAUNCH WITH COOKIE RESTORE
+    const hasLoaded = loadState();
     updateStats();
     setTimeout(() => {
       resizeCanvas();
