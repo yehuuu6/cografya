@@ -1568,8 +1568,8 @@ export default function TurkeyProvincesMap({
                     fill={innerColor}
                     fillOpacity="0.9"
                     stroke="#ffffff"
-                    strokeWidth={staticPins ? "1.5" : "2.2"}
-                    strokeOpacity={staticPins ? "0.4" : "1"}
+                    strokeWidth={staticPins ? "1.8" : "2.2"}
+                    strokeOpacity={staticPins ? "0.7" : "1"}
                     className={staticPins ? "" : "transition-transform duration-300 group-hover:scale-115 shadow-xl"}
                   />
 
@@ -1582,7 +1582,7 @@ export default function TurkeyProvincesMap({
                     textAnchor="middle"
                     dy="4.2"
                     fill="#ffffff"
-                    fillOpacity={staticPins ? "0.7" : "1"}
+                    fillOpacity={staticPins ? "0.85" : "1"}
                     fontSize="12.5"
                     fontWeight="800"
                     fontFamily="Inter, sans-serif"

@@ -104,71 +104,62 @@ export const GULF_QUESTIONS_DATA = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // 2. NET BİLGİ SORULARI (Kirlilik / Temizlik - answerMode: "choices")
+  // 2. NET BİLGİ & KİRLİLİK SORULARI (5 Pinli - Haritadan Tıklamalı)
   // ═══════════════════════════════════════════════════════════════════════════
 
   // --- 7. Saros Körfezi (En Temiz / Kendi Kendini Temizleyen) ---
   {
     id: "gulf-info-saros",
-    answerMode: "choices",
-    question: "Ege Denizi'nde yer alan, güçlü akıntıları sayesinde kendi kendini temizleme özelliğine sahip en temiz körfezimiz aşağıdakilerden hangisidir?",
+    question: "Haritada numaralandırılan körfezlerden hangisi, Ege Denizi'nde yer alan ve güçlü akıntıları sayesinde kendi kendini temizleme özelliğine sahip en temiz körfezimizdir?",
+    isNameSecret: true,
     pins: [
-      { label: "I",   name: "Saros Körfezi",        sea: "Ege",      x: 4.2,  y: 19.5 },
+      { label: "I",   name: "Saros Körfezi (Çanakkale/Edirne)", sea: "Ege",      x: 4.2,  y: 19.5 },
+      { label: "II",  name: "İzmit Körfezi (Kocaeli)",           sea: "Marmara",  x: 21.0, y: 19.5 },
+      { label: "III", name: "İzmir Körfezi (İzmir)",            sea: "Ege",      x: 5.2,  y: 46.5 },
+      { label: "IV",  name: "Çandarlı Körfezi (İzmir)",        sea: "Ege",      x: 6.5,  y: 40.8 },
+      { label: "V",   name: "İskenderun Körfezi (Hatay)",        sea: "Akdeniz",  x: 52.5, y: 72.0 },
     ],
-    choices: [
-      { label: "A", text: "Saros Körfezi" },
-      { label: "B", text: "İzmit Körfezi" },
-      { label: "C", text: "İzmir Körfezi" },
-      { label: "D", text: "Çandarlı Körfezi" },
-      { label: "E", text: "İskenderun Körfezi" },
-    ],
-    correctChoice: "A",
-    explanation: "Doğru Cevap: A (Saros Körfezi). Çanakkale/Edirne sınırındaki Saros Körfezi, özel akıntı yapısı nedeniyle Ege'nin kendi kendini temizleyen en temiz körfezidir.",
+    correctLabel: "I",
+    explanation: "Doğru Cevap: I (Saros Körfezi). Çanakkale/Edirne sınırındaki Saros Körfezi, özel akıntı yapısı nedeniyle Ege'nin kendi kendini temizleyen en temiz körfezidir.",
   },
 
   // --- 8. İzmit Körfezi (En Kirli / Sanayi) ---
   {
     id: "gulf-info-izmit",
-    answerMode: "choices",
-    question: "Sanayi tesislerinin ve liman faaliyetlerinin yoğunluğuna bağlı olarak Marmara Denizi'nde kirlilik oranı en yüksek olan körfez aşağıdakilerden hangisidir?",
+    question: "Haritada numaralandırılan körfezlerden hangisinde sanayi tesislerinin ve liman faaliyetlerinin yoğunluğuna bağlı olarak deniz kirliliği oranı en yüksek seviyededir?",
+    isNameSecret: true,
     pins: [
-      { label: "I",   name: "İzmit Körfezi",        sea: "Marmara",  x: 21.0, y: 19.5 },
+      { label: "I",   name: "Erdek Körfezi (Balıkesir)",        sea: "Marmara",  x: 9.8,  y: 21.8 },
+      { label: "II",  name: "Gemlik Körfezi (Bursa)",          sea: "Marmara",  x: 18.2, y: 23.5 },
+      { label: "III", name: "İzmit Körfezi (Kocaeli)",         sea: "Marmara",  x: 21.0, y: 19.5 },
+      { label: "IV",  name: "Saros Körfezi (Çanakkale)",       sea: "Ege",      x: 4.2,  y: 19.5 },
+      { label: "V",   name: "Gökova Körfezi (Muğla)",          sea: "Ege",      x: 9.5,  y: 66.0 },
     ],
-    choices: [
-      { label: "A", text: "Erdek Körfezi" },
-      { label: "B", text: "Gemlik Körfezi" },
-      { label: "C", text: "İzmit Körfezi" },
-      { label: "D", text: "Saros Körfezi" },
-      { label: "E", text: "Bandırma Körfezi" },
-    ],
-    correctChoice: "C",
-    explanation: "Doğru Cevap: C (İzmit Körfezi). İzmit Körfezi etrafındaki ağır sanayi tesisleri ve limanlar nedeniyle kirliliğin en yüksek olduğu körfezdir.",
+    correctLabel: "III",
+    explanation: "Doğru Cevap: III (İzmit Körfezi). İzmit Körfezi etrafındaki ağır sanayi tesisleri ve limanlar nedeniyle kirliliğin en yüksek olduğu körfezdir.",
   },
 
   // --- 9. İskenderun Körfezi (Ağır Sanayi / Demir-Çelik) ---
   {
     id: "gulf-info-iskenderun",
-    answerMode: "choices",
-    question: "Türkiye'de demir-çelik sanayisi ve petrol rafinerisi faaliyetlerine bağlı olarak deniz kirliliği yüksek olan Akdeniz körfezi aşağıdakilerden hangisidir?",
+    question: "Haritada numaralandırılan körfezlerden hangisi, demir-çelik sanayisi ve petrol rafinerisi faaliyetlerine bağlı olarak deniz kirliliği yüksek olan Akdeniz körfezimizdir?",
+    isNameSecret: true,
     pins: [
-      { label: "I",   name: "İskenderun Körfezi",   sea: "Akdeniz",  x: 52.5, y: 72.0 },
+      { label: "I",   name: "Antalya Körfezi (Antalya)",        sea: "Akdeniz",  x: 30.2, y: 68.2 },
+      { label: "II",  name: "Fethiye Körfezi (Muğla)",          sea: "Ege",      x: 15.5, y: 71.0 },
+      { label: "III", name: "İskenderun Körfezi (Hatay)",       sea: "Akdeniz",  x: 52.5, y: 72.0 },
+      { label: "IV",  name: "Hisarönü Körfezi (Muğla)",        sea: "Ege",      x: 11.2, y: 69.5 },
+      { label: "V",   name: "Gökova Körfezi (Muğla)",           sea: "Ege",      x: 9.5,  y: 66.0 },
     ],
-    choices: [
-      { label: "A", text: "Antalya Körfezi" },
-      { label: "B", text: "Fethiye Körfezi" },
-      { label: "C", text: "İskenderun Körfezi" },
-      { label: "D", text: "Hisarönü Körfezi" },
-      { label: "E", text: "Gökova Körfezi" },
-    ],
-    correctChoice: "C",
-    explanation: "Doğru Cevap: C (İskenderun Körfezi). Hatay/İskenderun demir-çelik ve petrol tesisleri nedeniyle Akdeniz'in kirliliği yüksek ağır sanayi körfezidir.",
+    correctLabel: "III",
+    explanation: "Doğru Cevap: III (İskenderun Körfezi). Hatay/İskenderun demir-çelik ve petrol tesisleri nedeniyle Akdeniz'in kirliliği yüksek ağır sanayi körfezidir.",
   },
 
   // --- 10. Gökova Körfezi (En Az Kirli - Pinli) ---
   {
     id: "gulf-info-gokova",
     question: "Haritada numaralandırılan körfezlerden hangisinde sanayi tesislerinin ve liman faaliyetlerinin azlığına bağlı olarak deniz kirliliği EN AZDIR?",
-    isNameSecret: false,
+    isNameSecret: true,
     pins: [
       { label: "I",   name: "İzmit Körfezi (Kocaeli)",          sea: "Marmara",  x: 21.0, y: 19.5 },
       { label: "II",  name: "İzmir Körfezi (İzmir)",            sea: "Ege",      x: 5.2,  y: 46.5 },
@@ -181,7 +172,7 @@ export const GULF_QUESTIONS_DATA = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // 3. GÜZERGÂH VE SIRALAMA SORULARI (answerMode: "choices")
+  // 3. GÜZERGÂH VE SIRALAMA SORULARI (Şıklı Seçenekli)
   // ═══════════════════════════════════════════════════════════════════════════
 
   // --- 11. İzmir -> Çanakkale Kuzeye Kıyı Seyri ---

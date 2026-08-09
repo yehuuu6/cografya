@@ -29,7 +29,7 @@ function shuffleArray(arr) {
 
 // Helper to load or initialize topic quiz state from localStorage / Cookies
 function getTopicState(topicId, rawData) {
-  const storageKey = `cografya_quiz_state_${topicId}`;
+  const storageKey = `cografya_v3_quiz_state_${topicId}`;
   try {
     const saved = localStorage.getItem(storageKey);
     if (saved) {
@@ -57,7 +57,7 @@ function getTopicState(topicId, rawData) {
   return { questions: freshShuffled, currentIndex: 0 };
 }
 
-export default function MapQuestionView({ onCorrect, onWrong }) {
+export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) {
   const [activeTopic, setActiveTopic] = useState(() => {
     return localStorage.getItem('cografya_active_topic') || 'goller';
   });
@@ -75,6 +75,21 @@ export default function MapQuestionView({ onCorrect, onWrong }) {
   const [isAnswered, setIsAnswered] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const mapContainerRef = useRef(null);
+
+  // Re-initialize state when global reset is triggered from main header
+  useEffect(() => {
+    if (globalResetKey > 0) {
+      const defaultTopic = 'goller';
+      const tab = TOPIC_TABS[0];
+      const freshState = getTopicState(defaultTopic, tab.rawData);
+      setActiveTopic(defaultTopic);
+      setTopicQuizState(freshState);
+      setClickedPin(null);
+      setSelectedChoice(null);
+      setIsAnswered(false);
+      setShowCompletionModal(false);
+    }
+  }, [globalResetKey]);
 
   // Save active topic preference to localStorage
   useEffect(() => {
@@ -95,14 +110,14 @@ export default function MapQuestionView({ onCorrect, onWrong }) {
 
   // Helper to persist current state to localStorage
   const saveProgress = (newQuestions, newIndex) => {
-    const storageKey = `cografya_quiz_state_${activeTopic}`;
+    const storageKey = `cografya_v3_quiz_state_${activeTopic}`;
     try {
       const ids = newQuestions.map(q => q.id);
       localStorage.setItem(storageKey, JSON.stringify({ shuffledIds: ids, currentIndex: newIndex }));
     } catch (e) {}
   };
 
-  // Manual Reset / Reshuffle current topic pool
+  // Reshuffle current topic pool on completion restart
   const handleResetTopicPool = () => {
     const freshShuffled = shuffleArray(currentTab.rawData);
     setTopicQuizState({ questions: freshShuffled, currentIndex: 0 });
@@ -233,19 +248,11 @@ export default function MapQuestionView({ onCorrect, onWrong }) {
           })}
         </div>
 
-        {/* Right side: Progress Counter & Reset Pool Button */}
+        {/* Right side: Progress Counter */}
         <div className="flex items-center gap-2">
           <span className="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-white/10 text-[11px] font-mono font-medium text-slate-300">
             Soru <strong className="text-indigo-400">{currentIndex + 1}</strong> / {questions.length}
           </span>
-          <button
-            onClick={handleResetTopicPool}
-            title="Soru havuzunu karıştır ve en başa sar"
-            className="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            <RotateCcw className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="hidden sm:inline">Sıfırla</span>
-          </button>
         </div>
       </div>
 
