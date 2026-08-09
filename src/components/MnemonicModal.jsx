@@ -5,15 +5,17 @@ import { GULF_CATEGORIES, GULFS_DATA } from '../data/gulfsData';
 import { MOUNTAIN_CATEGORIES, MOUNTAINS_DATA } from '../data/mountainsData';
 import { PLAIN_CATEGORIES, PLAINS_MNEMONICS_DATA } from '../data/plainsData';
 import { PLATEAU_CATEGORIES, PLATEAUS_MNEMONICS_DATA } from '../data/plateausData';
+import { NATIONAL_PARK_CATEGORIES, NATIONAL_PARKS_DATA } from '../data/nationalParksData';
 import { renderFormattedText } from '../utils/formatText';
-import { X, Search, BookOpen, Waves, Mountain, Compass, Trees, Layers, Sparkles } from 'lucide-react';
+import { X, Search, BookOpen, Waves, Mountain, Compass, Trees, Layers, Wheat, Sparkles } from 'lucide-react';
 
 const TABS = [
   { id: 'goller', name: 'Göller', icon: Waves, color: 'text-blue-400', badgeColor: 'bg-blue-500/10 border-blue-500/30' },
   { id: 'korfezler', name: 'Körfezler', icon: Compass, color: 'text-indigo-400', badgeColor: 'bg-indigo-500/10 border-indigo-500/30' },
   { id: 'daglar', name: 'Dağlar', icon: Mountain, color: 'text-rose-400', badgeColor: 'bg-rose-500/10 border-rose-500/30' },
-  { id: 'ovalar', name: 'Ovalar', icon: Trees, color: 'text-emerald-400', badgeColor: 'bg-emerald-500/10 border-emerald-500/30' },
+  { id: 'ovalar', name: 'Ovalar', icon: Wheat, color: 'text-emerald-400', badgeColor: 'bg-emerald-500/10 border-emerald-500/30' },
   { id: 'platolar', name: 'Platolar', icon: Layers, color: 'text-amber-400', badgeColor: 'bg-amber-500/10 border-amber-500/30' },
+  { id: 'milli-parklar', name: 'Milli Parklar', icon: Trees, color: 'text-teal-400', badgeColor: 'bg-teal-500/10 border-teal-500/30' },
 ];
 
 export default function MnemonicModal({ isOpen, onClose }) {
@@ -105,6 +107,21 @@ export default function MnemonicModal({ isOpen, onClose }) {
     return {
       ...cat,
       items: plateaus,
+      matchesSearch
+    };
+  }).filter(c => c.matchesSearch);
+
+  // Filter National Park Categories
+  const filteredNationalParkCategories = NATIONAL_PARK_CATEGORIES.map(cat => {
+    const parks = NATIONAL_PARKS_DATA.filter(p => cat.parks.includes(p.id));
+    const matchesSearch =
+      cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cat.story.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      parks.some(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.province.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    return {
+      ...cat,
+      items: parks,
       matchesSearch
     };
   }).filter(c => c.matchesSearch);
@@ -382,6 +399,50 @@ export default function MnemonicModal({ isOpen, onClose }) {
                     <div className="text-amber-400 font-bold flex items-center gap-1.5 mb-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                       <span>HAFIZA KODLAMASI & ÖZELLİKLER:</span>
+                    </div>
+                    <p className="text-slate-300 font-medium leading-relaxed whitespace-pre-line">
+                      {renderFormattedText(cat.story)}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )
+          )}
+
+          {/* Milli Parklar Tab */}
+          {activeTab === 'milli-parklar' && (
+            filteredNationalParkCategories.length === 0 ? (
+              <div className="py-12 flex flex-col items-center justify-center text-center gap-2">
+                <Search className="w-8 h-8 text-slate-600" />
+                <p className="text-sm font-medium text-slate-300">
+                  "{searchQuery}" için sonuç bulunamadı.
+                </p>
+              </div>
+            ) : (
+              filteredNationalParkCategories.map(cat => (
+                <div key={cat.id} className="bg-slate-950/70 rounded-2xl p-4 border border-white/10 flex flex-col gap-3 shadow-lg backdrop-blur-md">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: cat.color, boxShadow: `0 0 10px ${cat.color}` }} />
+                      <h4 className="text-sm font-extrabold text-white tracking-tight">{cat.name}</h4>
+                    </div>
+                    <span className="text-[11px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-400 font-mono">
+                      {cat.items.length} Millî Park
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 my-0.5">
+                    {cat.items.map(p => (
+                      <span key={p.id} className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-white/10 text-[11px] font-medium text-slate-200 flex items-center gap-1 shadow-sm">
+                        <span className="font-semibold text-slate-100">{p.name}</span>
+                        <span className="text-[10px] text-teal-300/80 font-mono">({p.province})</span>
+                        {p.isUNESCO && <span className="text-[9px] px-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded">UNESCO</span>}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-gradient-to-r from-slate-950/90 via-slate-900/90 to-teal-950/40 border border-teal-500/20 text-xs text-slate-200 leading-relaxed font-sans shadow-inner">
+                    <div className="text-teal-400 font-bold flex items-center gap-1.5 mb-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      <span>HAFIZA KODLAMASI & ÖZETİ:</span>
                     </div>
                     <p className="text-slate-300 font-medium leading-relaxed whitespace-pre-line">
                       {renderFormattedText(cat.story)}

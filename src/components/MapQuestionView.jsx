@@ -5,11 +5,12 @@ import { GULF_QUESTIONS_DATA } from '../data/gulfQuestionsData';
 import { MOUNTAIN_QUESTIONS_DATA } from '../data/mountainsQuestionsData';
 import { PLAINS_QUESTIONS_DATA } from '../data/plainsQuestionsData';
 import { PLATEAUS_QUESTIONS_DATA } from '../data/plateausQuestionsData';
+import { NATIONAL_PARKS_QUESTIONS_DATA } from '../data/nationalParksQuestionsData';
 import { sound } from '../utils/sound';
 import { renderFormattedText } from '../utils/formatText';
 import confetti from 'canvas-confetti';
 import {
-  CheckCircle2, XCircle, ArrowRight, HelpCircle, MapPin, Waves, Compass, Mountain, Wheat, Layers,
+  CheckCircle2, XCircle, ArrowRight, HelpCircle, MapPin, Waves, Compass, Mountain, Wheat, Layers, Trees,
   RotateCcw, Sparkles, Trophy
 } from 'lucide-react';
 
@@ -19,6 +20,7 @@ const TOPIC_TABS = [
   { id: 'daglar', label: 'Dağlar', icon: Mountain, color: 'text-rose-400', rawData: MOUNTAIN_QUESTIONS_DATA },
   { id: 'ovalar', label: 'Ovalar', icon: Wheat, color: 'text-emerald-400', rawData: PLAINS_QUESTIONS_DATA },
   { id: 'platolar', label: 'Platolar', icon: Layers, color: 'text-amber-400', rawData: PLATEAUS_QUESTIONS_DATA },
+  { id: 'milli-parklar', label: 'Milli Parklar', icon: Trees, color: 'text-teal-400', rawData: NATIONAL_PARKS_QUESTIONS_DATA },
 ];
 
 // Helper to shuffle array
@@ -216,7 +218,7 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
 
     // Censor pin name before user answers ONLY if question is location/name based (isNameSecret: true)
     const isSecret = currentQuestion.isNameSecret === true;
-    const topicLabel = activeTopic === 'korfezler' ? 'Körfez' : activeTopic === 'daglar' ? 'Dağ' : activeTopic === 'ovalar' ? 'Ova' : activeTopic === 'platolar' ? 'Plato' : 'Nokta';
+    const topicLabel = activeTopic === 'korfezler' ? 'Körfez' : activeTopic === 'daglar' ? 'Dağ' : activeTopic === 'ovalar' ? 'Ova' : activeTopic === 'platolar' ? 'Plato' : activeTopic === 'milli-parklar' ? 'Milli Park' : 'Nokta';
     const displayName = (!isAnswered && isSecret)
       ? `${topicLabel} ${pin.label} (🔒)`
       : pin.name;
@@ -345,28 +347,30 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
         </div>
       )}
 
-      {/* ═══════ PIN MODE: Pin Legend (non-clickable info cards) ═══════ */}
+      {/* ═══════ PIN MODE: Pin Legend (Clickable option cards below map) ═══════ */}
       {!isChoiceMode && currentQuestion && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
           {pinsWithState.map((pin) => {
-            let style = "bg-slate-800/60 border-white/10 text-slate-300";
+            let style = "bg-slate-800/60 border-white/10 text-slate-300 hover:bg-slate-700/70 hover:border-indigo-500/40 cursor-pointer active:scale-95";
             if (isAnswered) {
               if (pin.state === 'correct') {
-                style = "bg-emerald-500/20 border-emerald-500/50 text-emerald-300";
+                style = "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 cursor-default";
               } else if (pin.state === 'wrong') {
-                style = "bg-rose-500/20 border-rose-500/50 text-rose-300";
+                style = "bg-rose-500/20 border-rose-500/50 text-rose-300 cursor-default";
               } else {
-                style = "bg-slate-900/60 border-white/5 text-slate-500";
+                style = "bg-slate-900/60 border-white/5 text-slate-500 cursor-default";
               }
             }
 
             return (
-              <div
+              <button
                 key={pin.label}
-                className={`flex flex-col items-center justify-center gap-1 p-2.5 sm:p-3 rounded-xl border text-xs min-h-[48px] sm:min-h-[52px] transition-all duration-300 text-center ${style}`}
+                onClick={() => handlePinClick(pin.label)}
+                disabled={isAnswered}
+                className={`flex flex-col items-center justify-center gap-1 p-2.5 sm:p-3 rounded-xl border text-xs min-h-[48px] sm:min-h-[52px] transition-all duration-200 text-center ${style}`}
               >
                 <div className="flex items-center justify-center gap-1.5 w-full min-w-0">
-                  <span className="w-5 h-5 rounded-md bg-white/5 border border-white/10 flex items-center justify-center font-bold text-[10px] shrink-0">
+                  <span className="w-5 h-5 rounded-md bg-white/5 border border-white/10 flex items-center justify-center font-bold text-[10px] shrink-0 font-mono">
                     {pin.label}
                   </span>
                   <span className="font-semibold truncate">{pin.name}</span>
@@ -376,7 +380,7 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
                 <span className="text-[10px] font-mono text-center transition-all duration-300">
                   {isAnswered ? (pin[detailField] || '\u00A0') : '• • • • •'}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>
