@@ -3,18 +3,22 @@ import TurkeyProvincesMap from './TurkeyProvincesMap';
 import { MAP_QUESTIONS_DATA } from '../data/mapQuestionsData';
 import { GULF_QUESTIONS_DATA } from '../data/gulfQuestionsData';
 import { MOUNTAIN_QUESTIONS_DATA } from '../data/mountainsQuestionsData';
+import { PLAINS_QUESTIONS_DATA } from '../data/plainsQuestionsData';
+import { PLATEAUS_QUESTIONS_DATA } from '../data/plateausQuestionsData';
 import { sound } from '../utils/sound';
 import { renderFormattedText } from '../utils/formatText';
 import confetti from 'canvas-confetti';
 import {
-  CheckCircle2, XCircle, ArrowRight, HelpCircle, MapPin, Waves, Compass, Mountain,
+  CheckCircle2, XCircle, ArrowRight, HelpCircle, MapPin, Waves, Compass, Mountain, Wheat, Layers,
   RotateCcw, Sparkles, Trophy
 } from 'lucide-react';
 
 const TOPIC_TABS = [
   { id: 'goller', label: 'Göller', icon: Waves, color: 'text-blue-400', rawData: MAP_QUESTIONS_DATA },
   { id: 'korfezler', label: 'Körfezler', icon: Compass, color: 'text-indigo-400', rawData: GULF_QUESTIONS_DATA },
-  { id: 'daglar', label: 'Dağlar', icon: Mountain, color: 'text-amber-400', rawData: MOUNTAIN_QUESTIONS_DATA },
+  { id: 'daglar', label: 'Dağlar', icon: Mountain, color: 'text-rose-400', rawData: MOUNTAIN_QUESTIONS_DATA },
+  { id: 'ovalar', label: 'Ovalar', icon: Wheat, color: 'text-emerald-400', rawData: PLAINS_QUESTIONS_DATA },
+  { id: 'platolar', label: 'Platolar', icon: Layers, color: 'text-amber-400', rawData: PLATEAUS_QUESTIONS_DATA },
 ];
 
 // Helper to shuffle array
@@ -212,7 +216,7 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
 
     // Censor pin name before user answers ONLY if question is location/name based (isNameSecret: true)
     const isSecret = currentQuestion.isNameSecret === true;
-    const topicLabel = activeTopic === 'korfezler' ? 'Körfez' : activeTopic === 'daglar' ? 'Dağ' : 'Nokta';
+    const topicLabel = activeTopic === 'korfezler' ? 'Körfez' : activeTopic === 'daglar' ? 'Dağ' : activeTopic === 'ovalar' ? 'Ova' : activeTopic === 'platolar' ? 'Plato' : 'Nokta';
     const displayName = (!isAnswered && isSecret)
       ? `${topicLabel} ${pin.label} (🔒)`
       : pin.name;

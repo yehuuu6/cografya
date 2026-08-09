@@ -26,7 +26,7 @@ export default function App() {
     resetProgress();
 
     // 2. Clear topic quiz progress from localStorage
-    ['goller', 'korfezler', 'daglar'].forEach(topic => {
+    ['goller', 'korfezler', 'daglar', 'ovalar', 'platolar'].forEach(topic => {
       try {
         localStorage.removeItem(`cografya_quiz_state_${topic}`);
         localStorage.removeItem(`cografya_v2_quiz_state_${topic}`);

@@ -15,7 +15,7 @@ export default function TurkeyProvincesMap({
 }) {
   const mapWidth = 1007.478;
   const svgOriginalHeight = 527.323;
-  const mapHeight = 450; // ViewBox height perfectly centering Turkey landmass (Sinop top 12px, Hatay bottom 15px)
+  const mapHeight = 450;
 
   const containerRef = useRef(null);
   const [hoveredPinLabel, setHoveredPinLabel] = useState(null);
@@ -1476,12 +1476,12 @@ export default function TurkeyProvincesMap({
               strokeWidth="0.8"
               strokeLinejoin="round"
               className="transition-colors duration-200 hover:fill-indigo-700/80 hover:stroke-indigo-300 cursor-pointer"
-              onMouseEnter={() => handleProvinceHover("Düzce")}
             >
               <title>Düzce</title>
             </path>
           </g>
         </g>
+
 
         {/* Dynamic Pins Layer (Sorted so hovered pin is rendered LAST for topmost z-order) */}
         <g id="pins-layer">
