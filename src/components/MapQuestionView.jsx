@@ -232,8 +232,8 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
   return (
     <div className="w-full flex flex-col gap-2.5 sm:gap-4 landscape:gap-2">
       {/* Top Header Controls: Topic Selector Tabs + Progress Counter + Reset Button */}
-      <div className="flex items-center justify-between gap-2 w-full topic-tabs flex-wrap">
-        <div className="flex items-center gap-1.5">
+      <div className="flex items-center justify-between gap-2 sm:gap-3 w-full topic-tabs flex-wrap">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {TOPIC_TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTopic === tab.id;
@@ -241,7 +241,7 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
               <button
                 key={tab.id}
                 onClick={() => handleTopicChange(tab.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 border transition-all duration-200 cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 border transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30'
                     : 'bg-slate-900/80 text-slate-400 border-white/10 hover:text-slate-200 hover:bg-slate-800'
@@ -255,7 +255,7 @@ export default function MapQuestionView({ onCorrect, onWrong, globalResetKey }) 
         </div>
 
         {/* Right side: Progress Counter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0 ml-auto sm:ml-0">
           <span className="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-white/10 text-[11px] font-mono font-medium text-slate-300">
             Soru <strong className="text-indigo-400">{currentIndex + 1}</strong> / {questions.length}
           </span>

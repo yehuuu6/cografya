@@ -154,7 +154,7 @@ export default function MnemonicModal({ isOpen, onClose }) {
         </div>
 
         {/* Category Navigation Tabs */}
-        <div className="px-4 pt-3 pb-2 border-b border-white/10 bg-slate-950/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0">
+        <div className="px-4 pt-3 pb-2 border-b border-white/10 bg-slate-950/80 flex flex-wrap items-center gap-1.5 shrink-0">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
