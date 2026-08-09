@@ -34,7 +34,7 @@ export const GULF_CATEGORIES = [
     badgeBg: "rgba(59, 130, 246, 0.15)",
     borderColor: "rgba(59, 130, 246, 0.4)",
     gulfs: ["saros", "edremit", "candarli", "izmir", "kusadasi", "gulluk", "gokova", "hisaronu", "fethiye"],
-    story: "**SEÇİK Gülerek Gök Hisarla Fethetti**\n(Saros, Edremit, Çandarlı, İzmir, Kuşadası, Güllük, Gökova, Hisarönü, Fethiye)"
+    story: "**SEÇİK Gülerek Gök Hisarı Fethetti**\n(Saros, Edremit, Çandarlı, İzmir, Kuşadası, Güllük, Gökova, Hisarönü, Fethiye)"
   },
   {
     id: "marmara-korfezleri",
